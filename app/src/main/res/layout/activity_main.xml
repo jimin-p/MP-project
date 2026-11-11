@@ -7,116 +7,222 @@
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
-    <!-- 클래스팟 로고 이미지 -->
+    <!-- 상단 클래스팟 로고 이미지 -->
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:src="@drawable/img_1"
+        android:layout_width="278dp"
+        android:layout_height="203dp"
+        android:layout_marginTop="36dp"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etEmail"
+        android:src="@drawable/img_1"
+        app:layout_constraintBottom_toTopOf="@id/tvMainTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 클래스팟 타이틀 텍스트 -->
+    <TextView
+        android:id="@+id/tvMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="클래스팟"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#111111"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintBottom_toTopOf="@id/tvSubTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="8dp" />
+
+    <!-- 서브 타이틀 (나에게 딱 맞는 학원...) -->
+    <TextView
+        android:id="@+id/tvSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#777777"
+        app:layout_constraintTop_toBottomOf="@id/tvMainTitle"
+        app:layout_constraintBottom_toTopOf="@id/tvEmailLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- 이메일 라벨 -->
 
     <!-- 이메일 입력창 -->
 
-    <!-- 비밀번호 입력창 -->
+    <!-- 비밀번호 라벨 -->
+
+    <TextView
+        android:id="@+id/tvEmailLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:text="이메일"
+        android:textColor="#555555"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@id/etEmail"
+        app:layout_constraintTop_toBottomOf="@id/tvSubTitle" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="12dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="16dp"
         android:background="@android:drawable/editbox_background_normal"
-        android:hint="이메일을 입력하세요"
+        android:hint="이메일을 입력해 주세요"
         android:inputType="textEmailAddress"
-        android:padding="12dp"
-        app:layout_constraintBottom_toTopOf="@id/etPassword"
+        android:paddingHorizontal="12dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
-        app:layout_constraintWidth_percent="0.84" />
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel"
+        app:layout_constraintWidth_percent="0.86" />
 
+    <TextView
+        android:id="@+id/tvPasswordLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="비밀번호"
+        android:textSize="13sp"
+        android:textColor="#555555"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="@id/etPassword"
+        android:layout_marginBottom="4dp" />
+
+    <!-- 비밀번호 입력창 -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:hint="비밀번호를 입력하세요"
+        android:layout_height="46dp"
+        android:hint="비밀번호를 입력해 주세요"
+        android:textSize="14sp"
         android:inputType="textPassword"
-        android:padding="12dp"
+        android:paddingHorizontal="12dp"
         android:background="@android:drawable/editbox_background_normal"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
-        app:layout_constraintBottom_toTopOf="@id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.84"
-        android:layout_marginBottom="16dp" />
+        app:layout_constraintWidth_percent="0.86"
+        android:layout_marginBottom="18dp" />
 
-    <!-- 일반 로그인 버튼 (초록색 계열) -->
+    <!-- 로그인 버튼 (초록색 계열) -->
+
+    <!-- 이메일 찾기 | 비밀번호 찾기 -->
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="로그인"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#2E7D32"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword"
-        app:layout_constraintBottom_toTopOf="@id/btnKakaoLogin"
+        app:layout_constraintWidth_percent="0.86" />
+
+    <LinearLayout
+        android:id="@+id/layoutFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.84"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/tvFindEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일 찾기"
+            android:textSize="13sp"
+            android:textColor="#666666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  |  "
+            android:textSize="13sp"
+            android:textColor="#CCCCCC" />
+
+        <TextView
+            android:id="@+id/tvFindPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 찾기"
+            android:textSize="13sp"
+            android:textColor="#666666" />
+    </LinearLayout>
+
+    <!-- 또는 간편하게 시작하기 구분선 텍스트 -->
+    <TextView
+        android:id="@+id/tvOr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="또는 간편하게 시작하기"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        app:layout_constraintTop_toBottomOf="@id/layoutFind"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="12dp" />
 
     <!-- 카카오톡 로그인 버튼 -->
 
     <!-- 구글 로그인 버튼 -->
+
+    <!-- 회원가입 텍스트 -->
+
     <Button
         android:id="@+id/btnKakaoLogin"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="#FEE500"
         android:text="카카오로 시작하기"
         android:textColor="#191919"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/btnGoogleLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
-        app:layout_constraintWidth_percent="0.84" />
+        app:layout_constraintTop_toBottomOf="@id/tvOr"
+        app:layout_constraintWidth_percent="0.86" />
 
     <Button
         android:id="@+id/btnGoogleLogin"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="Google로 시작하기"
-        android:textSize="14sp"
-        android:textColor="#333333"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#F5F5F5"
-        app:layout_constraintTop_toBottomOf="@id/btnKakaoLogin"
-        app:layout_constraintBottom_toTopOf="@id/tvSignUp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Google로 시작하기"
+        android:textColor="#333333"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.84"
-        android:layout_marginBottom="20dp" />
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnKakaoLogin"
+        app:layout_constraintWidth_percent="0.86" />
 
-    <!-- 회원가입 텍스트 -->
     <TextView
         android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="계정이 없으신가요? 회원가입"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        app:layout_constraintTop_toBottomOf="@id/btnGoogleLogin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="클래스팟이 처음이신가요? 회원가입"
+        android:textColor="#555555"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="40dp" />
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnGoogleLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
