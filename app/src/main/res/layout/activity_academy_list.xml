@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 상단 학원 개수 텍스트 -->
+    <TextView
+        android:id="@+id/tvAcademyCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="우리 동네 학원 0"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- 카테고리 필터 버튼들 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCatAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnCatEdu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="입시교육"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnCatLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="어학"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnCatArt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="예체능"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnCatOneday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원데이클래스" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 학원 목록 RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAcademyList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
