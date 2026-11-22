@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signupRoot"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#FFFFFF" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="28dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="회원가입" android:textSize="28sp" android:textStyle="bold"
+            android:textColor="#111111" android:layout_marginTop="32dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="클래스팟에서 나에게 맞는 배움을 찾아보세요."
+            android:textColor="#666666" android:layout_marginTop="12dp" android:layout_marginBottom="32dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="이메일" android:labelFor="@id/etSignUpEmail" android:textColor="#333333" />
+        <EditText android:id="@+id/etSignUpEmail" android:layout_width="match_parent" android:layout_height="56dp"
+            android:hint="이메일을 입력해 주세요" android:inputType="textEmailAddress"
+            android:imeOptions="actionNext|flagForceAscii"
+            android:autofillHints="emailAddress" android:singleLine="true" android:textColor="#111111" android:textColorHint="#777777" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="비밀번호" android:labelFor="@id/etSignUpPassword" android:textColor="#333333" android:layout_marginTop="20dp" />
+        <EditText android:id="@+id/etSignUpPassword" android:layout_width="match_parent" android:layout_height="56dp"
+            android:hint="6자 이상 입력해 주세요" android:inputType="textPassword" android:saveEnabled="false"
+            android:autofillHints="newPassword" android:singleLine="true" android:textColor="#111111" android:textColorHint="#777777" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="비밀번호 확인" android:labelFor="@id/etSignUpConfirm" android:textColor="#333333" android:layout_marginTop="20dp" />
+        <EditText android:id="@+id/etSignUpConfirm" android:layout_width="match_parent" android:layout_height="56dp"
+            android:hint="비밀번호를 다시 입력해 주세요" android:inputType="textPassword" android:saveEnabled="false"
+            android:autofillHints="newPassword" android:singleLine="true" android:textColor="#111111" android:textColorHint="#777777" />
+        <TextView android:id="@+id/tvSignUpError" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="#B3261E" android:accessibilityLiveRegion="polite" android:layout_marginTop="16dp" android:visibility="gone" />
+        <Button android:id="@+id/btnCreateAccount" android:layout_width="match_parent" android:layout_height="56dp"
+            android:text="가입하기" android:backgroundTint="#2E7D32" android:textColor="#FFFFFF" android:layout_marginTop="24dp" />
+        <Button android:id="@+id/btnBackToLogin" android:layout_width="match_parent" android:layout_height="56dp"
+            android:text="로그인으로 돌아가기" android:backgroundTint="#F5F5F5" android:textColor="#333333" android:layout_marginTop="12dp" />
+    </LinearLayout>
+</ScrollView>

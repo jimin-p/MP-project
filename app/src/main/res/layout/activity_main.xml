@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:fillViewport="true"
     tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
 
     <!-- 상단 클래스팟 로고 이미지 -->
 
@@ -80,6 +86,11 @@
         android:background="@android:drawable/editbox_background_normal"
         android:hint="이메일을 입력해 주세요"
         android:inputType="textEmailAddress"
+        android:imeOptions="actionNext|flagForceAscii"
+        android:singleLine="true"
+        android:autofillHints="emailAddress"
+        android:textColor="#111111"
+        android:textColorHint="#777777"
         android:paddingHorizontal="12dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -232,3 +243,4 @@
         app:layout_constraintTop_toBottomOf="@id/btnGoogleLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

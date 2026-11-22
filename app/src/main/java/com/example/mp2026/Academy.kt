@@ -10,5 +10,7 @@ data class Academy(
     val rating: Double,       // 별점
     val curriculum: String,   // 커리큘럼 / 과목 설명
     val price: String,        // 가격 텍스트 (예: "월 300,000원")
-    val image: String         // 이미지 URL
+    val image: String,        // 이미지 URL
+    val id: String = "",      // Firestore 문서 ID. 기존 프론트 생성 코드와 호환
+    val reviewCount: Int = 0
 )

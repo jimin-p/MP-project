@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Catalog updates are performed by trusted Admin SDK tooling / the future server.
+    match /academies/{academyId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /users/{uid} {
+      function validProfile() {
+        let data = request.resource.data;
+        return data.keys().hasAll(['email', 'displayName', 'createdAt', 'updatedAt'])
+          && data.keys().hasOnly(['email', 'displayName', 'createdAt', 'updatedAt'])
+          && data.email is string && data.email == request.auth.token.email
+          && data.email.size() <= 254
+          && data.displayName is string && data.displayName.size() <= 80
+          && data.createdAt is timestamp && data.updatedAt == request.time;
+      }
+      allow get: if owner(uid);
+      allow create: if owner(uid) && validProfile() && request.resource.data.createdAt == request.time;
+      allow update: if owner(uid) && validProfile()
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'displayName', 'updatedAt']);
+      allow delete, list: if false;
+    }
+
+    // No temporary public ping rule or unimplemented review/role/approval write permissions.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
