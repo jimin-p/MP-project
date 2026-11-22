@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,17 +12,17 @@
         android:id="@+id/tvAcademyCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:text="우리 동네 학원 0"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+        android:textStyle="bold" />
 
     <!-- 카테고리 필터 버튼들 -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="12dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,35 +33,45 @@
                 android:id="@+id/btnCatAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="전체"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32" />
 
             <Button
                 android:id="@+id/btnCatEdu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="입시교육"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32" />
 
             <Button
                 android:id="@+id/btnCatLang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="어학"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32" />
 
             <Button
                 android:id="@+id/btnCatArt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="예체능"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32" />
 
             <Button
                 android:id="@+id/btnCatOneday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="원데이클래스" />
+                android:text="원데이클래스"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -69,6 +81,7 @@
         android:id="@+id/rvAcademyList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:listitem="@layout/item_academy_card" />
 
 </LinearLayout>
