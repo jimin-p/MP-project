@@ -1,4 +1,4 @@
-package com.example.mp2026
+﻿package com.example.mp2026
 
 import android.Manifest
 import android.content.Intent
@@ -6,6 +6,13 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.MotionEvent
+import android.view.ViewConfiguration
+import android.animation.ValueAnimator
+import android.view.animation.DecelerateInterpolator
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -14,6 +21,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mp2026.data.*
 import com.example.mp2026.ui.AuthenticatedActivity
 import java.util.Locale
@@ -21,7 +30,7 @@ import java.util.Locale
 class HomeActivity : AuthenticatedActivity() {
     private lateinit var viewModel: AcademyViewModel
     private lateinit var location: CurrentLocation
-    private var selected: Academy? = null
+    private var resultsExpanded = false
     private val categories = mapOf(R.id.btnHomeAll to "전체", R.id.btnHomeEdu to "입시교육",
         R.id.btnHomeLang to "어학", R.id.btnHomeCert to "자격증", R.id.btnHomeArt to "예체능",
         R.id.btnHomeOneday to "원데이클래스")
@@ -32,8 +41,13 @@ class HomeActivity : AuthenticatedActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        bindResultHandle(savedInstanceState?.getBoolean("resultsExpanded") == true)
         viewModel = ViewModelProvider(this)[AcademyViewModel::class.java]
         location = CurrentLocation(this)
+        findViewById<RecyclerView>(R.id.rvHomeAcademies).apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity)
+            adapter = AcademyAdapter(emptyList())
+        }
         findViewById<View>(R.id.searchBarLayout).setOnClickListener { searchDialog() }
         findViewById<View>(R.id.btnClearSearch).setOnClickListener {
             viewModel.updateSearch(viewModel.search.copy(keyword = ""))
@@ -50,14 +64,6 @@ class HomeActivity : AuthenticatedActivity() {
         findViewById<Button>(R.id.btnHomeFilter).setOnClickListener { filterDialog() }
         findViewById<TextView>(R.id.tvHomeSort).setOnClickListener { sortDialog() }
         findViewById<TextView>(R.id.tvHomeResultTitle).setOnClickListener { if (hasSession) viewModel.retry() }
-        findViewById<Button>(R.id.btnDetail).setOnClickListener {
-            selected?.let { academy ->
-                // Temporary binding to the existing button; the frontend can replace this with a detail screen.
-                AlertDialog.Builder(this).setTitle(academy.name)
-                    .setMessage("${academy.category}\n${academy.address}\n\n${academy.curriculum}\n\n${academy.price}\n★ ${academy.rating}")
-                    .setPositiveButton("확인", null).show()
-            }
-        }
         viewModel.state.observe(this, ::render)
         if (savedInstanceState == null) {
             val auth = AuthRepository()
@@ -73,8 +79,80 @@ class HomeActivity : AuthenticatedActivity() {
     override fun onStart() { super.onStart(); if (hasSession) viewModel.start() }
     override fun onStop() { location.cancel(); viewModel.stop(); super.onStop() }
 
+    private fun bindResultHandle(initiallyExpanded: Boolean) {
+        val sheet = findViewById<View>(R.id.bottomSheetLayout)
+        val handle = findViewById<View>(R.id.resultHandle)
+        val parent = sheet.parent as View
+        val preferredHeight = sheet.layoutParams.height
+        val clearance = (24 * resources.displayMetrics.density).toInt()
+        val slop = ViewConfiguration.get(this).scaledTouchSlop
+        var animation: ValueAnimator? = null
+        fun maxHeight(): Int {
+            val topInset = ViewCompat.getRootWindowInsets(parent)
+                ?.getInsets(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.displayCutout())?.top ?: 0
+            val position = IntArray(2)
+            parent.getLocationInWindow(position)
+            return (parent.height - (topInset - position[1]).coerceAtLeast(0) - clearance).coerceAtLeast(1)
+        }
+        fun resize(height: Int) {
+            if (sheet.layoutParams.height != height) {
+                sheet.layoutParams = sheet.layoutParams.apply { this.height = height }
+            }
+        }
+        fun settle(expanded: Boolean, animate: Boolean = true) {
+            resultsExpanded = expanded
+            handle.contentDescription = if (expanded) "검색 결과 접고 지도 보기" else "검색 결과 펼치기"
+            val limit = maxHeight()
+            val target = if (expanded) limit else minOf(preferredHeight, limit)
+            animation?.cancel()
+            if (animate && sheet.layoutParams.height != target) {
+                animation = ValueAnimator.ofInt(sheet.layoutParams.height, target).apply {
+                    duration = 240
+                    interpolator = DecelerateInterpolator()
+                    addUpdateListener { resize(it.animatedValue as Int) }
+                    start()
+                }
+            } else {
+                resize(target)
+            }
+        }
+        parent.doOnLayout { settle(initiallyExpanded, false) }
+        handle.setOnClickListener { settle(!resultsExpanded) }
+        var startY = 0f
+        var startHeight = 0
+        var limit = 0
+        var dragging = false
+        handle.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    animation?.cancel()
+                    startY = event.rawY
+                    startHeight = sheet.layoutParams.height
+                    limit = maxHeight()
+                    dragging = false
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val travel = startY - event.rawY
+                    if (kotlin.math.abs(travel) > slop) dragging = true
+                    if (dragging) resize((startHeight + travel).toInt().coerceIn(minOf(preferredHeight, limit), limit))
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (dragging) settle(sheet.layoutParams.height >= (minOf(preferredHeight, limit) + limit) / 2)
+                    else view.performClick()
+                }
+                MotionEvent.ACTION_CANCEL -> settle(resultsExpanded)
+            }
+            true
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("resultsExpanded", resultsExpanded)
+    }
+
     private fun render(state: AcademyUiState) {
-        selected = state.items.firstOrNull()
+        (findViewById<RecyclerView>(R.id.rvHomeAcademies).adapter as AcademyAdapter).updateList(state.items)
         findViewById<TextView>(R.id.tvSearchQuery).text = state.search.keyword.ifBlank { "학원명·지역·관심 분야 검색" }
         findViewById<TextView>(R.id.tvHomeResultTitle).text = when {
             state.error != null -> "조회 실패 · 눌러서 재시도"
@@ -94,21 +172,6 @@ class HomeActivity : AuthenticatedActivity() {
                 alpha = if (isSelected) 1f else 0.65f
             }
         }
-        findViewById<TextView>(R.id.tvHomeName).text = selected?.name ?: when {
-            state.error != null -> state.error
-            state.loading -> "잠시 기다려 주세요."
-            state.fromCache -> "저장된 학원이 없습니다. 서버 연결을 확인해 주세요."
-            else -> "검색 조건에 맞는 학원이 없습니다."
-        }
-        findViewById<TextView>(R.id.tvHomeCategory).text = selected?.let { "${it.category} · ${it.curriculum}" }.orEmpty()
-        findViewById<TextView>(R.id.tvHomeRating).text = selected?.let { academy ->
-            val distance = state.search.origin?.let { origin ->
-                " · 기준 위치에서 " + String.format(Locale.KOREA, "%.1fkm", AcademySearch.distanceKm(origin, academy))
-            }.orEmpty()
-            "★ ${academy.rating} (${academy.reviewCount})$distance"
-        }.orEmpty()
-        findViewById<TextView>(R.id.tvHomePrice).text = selected?.price.orEmpty()
-        findViewById<Button>(R.id.btnDetail).isEnabled = selected != null
     }
 
     private fun searchDialog() {
@@ -185,3 +248,4 @@ class HomeActivity : AuthenticatedActivity() {
     }
     private fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
+
