@@ -23,8 +23,12 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="뒤로가기"
-            android:src="@android:drawable/ic_media_previous" />
+            android:focusable="true"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back_green" />
 
         <TextView
             android:id="@+id/tvDetailTitle"
@@ -33,21 +37,28 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="학원 상세"
+            android:textColor="#1B1B1B"
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <!-- 찜하기 하트 버튼 -->
+        <!-- 찜하기 버튼 -->
         <ImageButton
             android:id="@+id/btnFavorite"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="찜하기"
-            android:src="@android:drawable/btn_star_big_off" />
+            android:focusable="true"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_nav_bookmark"
+            app:tint="#2E7D32" />
     </LinearLayout>
 
     <!-- 본문 스크롤 영역 -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollDetailContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -65,7 +76,7 @@
             <!-- 대표 이미지 영역 -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="180dp">
 
                 <ImageView
                     android:id="@+id/ivAcademyPhoto"
@@ -93,7 +104,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -126,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="학원 이름"
+                android:textColor="#1B1B1B"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -171,8 +183,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="수강료"
+                android:textColor="#1B1B1B"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -182,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="#F5F8F6"
-                android:padding="14dp"
+                android:padding="12dp"
                 android:text="월 0원"
                 android:textColor="#1E6F5C"
                 android:textSize="18sp"
@@ -192,8 +205,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="교육과정 안내"
+                android:textColor="#1B1B1B"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -210,15 +224,17 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- 하단 상담/문의 바 -->
+    <!-- 하단 상담/문의/후기 바 -->
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:elevation="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -226,23 +242,52 @@
         <Button
             android:id="@+id/btnKakaoConsult"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
             android:layout_weight="1"
-            android:backgroundTint="#FEE500"
-            android:text="카카오톡 상담"
+            android:backgroundTint="#F1F3F4"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="전화 상담"
             android:textColor="#191919"
-            android:textStyle="bold" />
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/btnInquiry"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
             android:layout_weight="1"
             android:backgroundTint="#2E7D32"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
             android:text="수강 문의하기"
             android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/btnWriteReview"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:backgroundTint="#E8F5E9"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="후기 작성하기"
+            android:textColor="#2E7D32"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

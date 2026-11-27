@@ -193,7 +193,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="수강 등록 처리 결과"
+                            android:text="비교 결과 저장 내역"
                             android:textColor="#1B1B1B"
                             android:textSize="15sp" />
 
